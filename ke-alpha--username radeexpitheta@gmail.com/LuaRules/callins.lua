@@ -28,8 +28,6 @@ CallInsList = {
   "AddConsoleLine",
   "GroupChanged",
 
-  "GamePreload",
-  "GameStart",
   "GameOver",
   "TeamDied",
 
@@ -51,10 +49,6 @@ CallInsList = {
   "FeatureCreated",
   "FeatureDestroyed",
 
-  "ProjectileCreated",
-  "ProjectileDestroyed",
-
-  "DrawGenesis",
   "DrawWorld",
   "DrawWorldPreUnit",
   "DrawWorldShadow",
@@ -63,7 +57,6 @@ CallInsList = {
   "DrawScreenEffects",
   "DrawScreen",
   "DrawInMiniMap",
-  "DrawUnit",
 
   "Explosion",
   "ShockFront",
@@ -79,8 +72,6 @@ CallInsList = {
   "AllowFeatureBuildStep",
   "AllowResourceLevel",
   "AllowResourceTransfer",
-  "MoveCtrlNotify",
-  "TerraformComplete",
 }
 
 
