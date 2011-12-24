@@ -1,0 +1,203 @@
+[NullDeath]
+{
+	name=Die Quietly;
+	areaofeffect=0;
+	collidefriendly=0;
+	avoidfriendly=0;
+	tolerance=1000;
+	impulsefactor=0;
+	impulseBoost=0;
+	craterMult=0;
+	craterBoost=0;
+	explosionGenerator=custom:none;
+	interceptedbyshieldtype=0;
+	[DAMAGE]
+	{
+		default=0;
+	}
+}
+
+//[SmallDeath]
+//{
+//	name=Small Death;
+//
+//	areaofeffect=0;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	//soundstart=nadefire;
+//	soundhit=smallexplo;
+//
+//	tolerance=1000;
+//
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:none;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=5;
+//	}
+//}
+//
+//[Death]
+//{
+//	name=Death;
+//
+//	areaofeffect=0;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	//soundstart=nadefire;
+//	soundhit=deadline;
+//
+//	tolerance=1000;
+//
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:none;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=0;
+//	}
+//}
+//
+//[DroneDeath]
+//{
+//	name=Drone Death;
+//	areaofeffect=50;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	soundhit=smallexplo;
+//	tolerance=1000;
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:SMALLMISSILE_EXPLOSION;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=10;
+//		inf=100;
+//	}
+//}
+//
+//[VehicleDeath]
+//{
+//	name=Death;
+//
+//	areaofeffect=0;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	//soundstart=nadefire;
+//	soundhit=basedeath;
+//
+//	tolerance=1000;
+//
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:MISSILE_EXPLOSION;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=0;
+//	}
+//}
+//
+//[BaseDeath]
+//{
+//	name=BaseDeath;
+//
+//	areaofeffect=0;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	//soundstart=nadefire;
+//	soundhit=basedeath;
+//
+//	tolerance=1000;
+//
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:none;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=0;
+//	}
+//}
+//
+//[towerdeath]
+//{
+//	name=fallcrash;
+//	areaofeffect=100;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	tolerance=1000;
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:debris1;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=0;
+//		inf=400;
+//	}
+//}
+//
+//[VTOLDeath]
+//{
+//	name=Death;
+//
+//	areaofeffect=0;
+//	collidefriendly=0;
+//	avoidfriendly=0;
+//	//soundstart=nadefire;
+//	soundhit=basedeath;
+//
+//	tolerance=1000;
+//
+//	impulsefactor=0;
+//	impulseBoost=0;
+//	craterMult=0;
+//	craterBoost=0;
+//	explosionGenerator=custom:BIGBOMB_EXPLOSION;
+//	interceptedbyshieldtype=0;
+//	[DAMAGE]
+//	{
+//		default=0;
+//	}
+//}
+//
+/////*
+////[VehicleBurn]
+////{
+////	name=Burning Vehicle;
+////	areaofeffect=200;
+////	edgeeffectiveness=1;	
+////	collidefriendly=0;
+////	avoidfriendly=0;
+////	tolerance=64000;
+////	impulsefactor=0;
+////	impulseBoost=0;
+////	craterMult=0;
+////	craterBoost=0;
+////	explosionGenerator=custom:Burning;
+////	interceptedbyshieldtype=0;
+////	[DAMAGE]
+////	{
+////		default=0.1;
+////		inf=30;
+////	}
+////}
+////*
+//
