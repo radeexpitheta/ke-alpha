@@ -16,7 +16,7 @@
 	FootprintX=3;
 	FootprintZ=3;
 	}
-[FOOT]
+[CLASS2]
 	{
 	Name=FOOT;
 	MaxWaterDepth=6;

@@ -166,35 +166,40 @@ function script.Shot(num)
 	--EmitSfx( shell,  1024+1 )   --emit shell
 end
 
+-------Transporting-----
 function script.BeginTransport(passengerID)
 end
 function script.QueryTransport(passengerID)
 	return -1
 end
-function script.EndTransport(each, passengerID)
-	local wepid = nil
-	if (uid == wrifle) or (uid == wsmg) or (uid == wmgun) or (uid == wcshot)
-		then 
-		local sid = tostring(uid)
-		wepid = string.find(sid, "%s*=%s*(%a+)")
-		equipa = nil
-		Hide( wepid)
-	end
+function script.TransportDrop ( passengerID, x, y, z )
+	--Spring.UnitScript.DetachUnit (passengerID)
 end
-function script.TransportPickup (passengerID)
-	--Spring.Echo ("hey passenger " .. passengerID)
-	local uid = Spring.GetUnitDefID(passengerID)
-	if (uid == wrifle) or (uid == wsmg) or (uid == wmgun) or (uid == wcshot)
+
+function script.EndTransport(each, passengerID)
+end
+
+function script.TransportPickup (passengerID)	
+	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
+	passengerteam = Spring.GetUnitAllyTeam (passengerID)
+	Spring.Echo ("transport pick up")
+	if (unitDef.name == rifle) or (unitDef.name == smg) or (unitDef.name == mgun) or (unitDef.name == cshot)
 		then 
-		if equipa == uid
+		Spring.Echo ("A weapon!! Yay!")	
+		Spring.SetUnitNoSelect (passengerID, true)
+		Spring.UnitScript.AttachUnit (-1, passengerID)
+		if equipa == unitDef.name
 			then
-			local sid = tostring(uid)
+			local sid = tostring(unitDef.name)
 			wepid = string.find(sid, "%s*=%s*(%a+)")
 			Show( wepid)	
 		else equipa = nil
 		end	
+	else
+	Spring.Echo ("not a weapon")	
 	end
 end
+------------------------
 
 
 
