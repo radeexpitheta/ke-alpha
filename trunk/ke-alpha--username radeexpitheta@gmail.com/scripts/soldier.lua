@@ -183,7 +183,10 @@ function script.TransportPickup (passengerID)
 	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
 	passengerteam = Spring.GetUnitAllyTeam (passengerID)
 	Spring.Echo ("transport pick up")
-	if (unitDef.name == rifle) or (unitDef.name == smg) or (unitDef.name == mgun) or (unitDef.name == cshot)
+	local udid = Spring.GetUnitDefID(passengerID)
+	local pdef = UnitDefs[udid]
+	--Spring.Echo (pdef.name)	
+	if (pdef.name == "wrifle") or (pdef.name == "wsmg") or (pdef.name == "wmgun") or (pdef.name == "wcshot")
 		then 
 		Spring.Echo ("A weapon!! Yay!")	
 		Spring.SetUnitNoSelect (passengerID, true)
