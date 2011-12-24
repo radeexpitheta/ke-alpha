@@ -16,4 +16,13 @@
 	FootprintX=3;
 	FootprintZ=3;
 	}
+[FOOT]
+	{
+	Name=FOOT;
+	MaxWaterDepth=6;
+	MaxSlope=36;
+	CrushStrength=2;
+	FootprintX=1;
+	FootprintZ=1;
+	}
 

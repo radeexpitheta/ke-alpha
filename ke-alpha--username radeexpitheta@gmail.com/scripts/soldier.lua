@@ -186,19 +186,22 @@ function script.TransportPickup (passengerID)
 	local uid = Spring.GetUnitDefID(passengerID)
 	if (uid == wrifle) or (uid == wsmg) or (uid == wmgun) or (uid == wcshot)
 		then 
-		if equipa = uid
-		local sid = tostring(uid)
-		wepid = string.find(sid, "%s*=%s*(%a+)")
-		Show( wepid)
-		else equipa = nil 
+		if equipa == uid
+			then
+			local sid = tostring(uid)
+			wepid = string.find(sid, "%s*=%s*(%a+)")
+			Show( wepid)	
+		else equipa = nil
+		end	
 	end
 end
 
+
+
 function script.Killed(recentDamage, maxHealth)
 	local severity = recentDamage/maxHealth
-	elseif  severity <= .50  then
+	if severity <= .5  then
 		EmitSfx( blood,  1024+0 )   --emit blood
-	
 		return 1
 	else
 		Explode(torso, sfxShatter)
@@ -208,7 +211,6 @@ function script.Killed(recentDamage, maxHealth)
 		EmitSfx( pelvis,  1024+0 )   --emit blood
 		EmitSfx( rarm,  1024+0 )   --emit blood
 		EmitSfx( larm,  1024+0 )   --emit blood
-		
 		return 2
 	end
 end

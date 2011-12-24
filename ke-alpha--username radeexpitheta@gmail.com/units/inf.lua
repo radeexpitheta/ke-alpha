@@ -20,6 +20,7 @@ local unitDef = {
 	canRestore = false,
 	canReclaim = false,
 	canAssist = false,
+ -- canMove                = true,
   CantBeTransported = true,
   category           = "NOTARGET",
   capturable = false,	
@@ -43,7 +44,7 @@ local unitDef = {
   objectName         = "inf.s3o",
   pushResistant         = false,
   radarDistance      = 0,
-  script             = "inf.lua",
+  script             = "soldier.lua",
   selfDestructAs     = "NullDeath",
   selfDestructCountdown = 0,
   showNanoFrame      = false,
@@ -65,36 +66,37 @@ local unitDef = {
   
   
 weapons = {
-    [1]  = {
-      def                = "RecGun",
-	  badtargetcategory  = "VEHICLE", 
-      onlyTargetCategory = "TARGET",
-      mainDir            = "0 0 1", 
-      maxAngleDif        = 120,
-    },
-    [2]  = {
-      def                = "Burner",
-	  badtargetcategory  = "VEHICLE",
-      onlyTargetCategory = "TARGET",
-	  mainDir            = "0 0 1", 
-      maxAngleDif        = 120,
-    },
-	[3]  = {
-      def                = "Gun",
-	  badtargetcategory  = "VEHICLE",
-      onlyTargetCategory = "TARGET",
-	  mainDir            = "0 0 1",
-      maxAngleDif        = 120,
-    },
-	[4]  = {
-      def                = "Grenade",
-	  badtargetcategory  = "VEHICLE", 
-      onlyTargetCategory = "TARGET",
-      mainDir            = "0 0 1", 
-      maxAngleDif        = 120,
-    },
-}
+		[1]  = {
+		  def                = "RecGun",
+		  badtargetcategory  = "VEHICLE", 
+		  onlyTargetCategory = "TARGET",
+		  mainDir            = "0 0 1", 
+		  maxAngleDif        = 120,
+		},
+		[2]  = {
+		  def                = "Burner",
+		  badtargetcategory  = "VEHICLE",
+		  onlyTargetCategory = "TARGET",
+		  mainDir            = "0 0 1", 
+		  maxAngleDif        = 120,
+		},
+		[3]  = {
+		  def                = "Gun",
+		  badtargetcategory  = "VEHICLE",
+		  onlyTargetCategory = "TARGET",
+		  mainDir            = "0 0 1",
+		  maxAngleDif        = 120,
+		},
+		[4]  = {
+		  def                = "Grenade",
+		  badtargetcategory  = "VEHICLE", 
+		  onlyTargetCategory = "TARGET",
+		  mainDir            = "0 0 1", 
+		  maxAngleDif        = 120,
+		},
+	},
 
+}
 
 --------------------------------------------------------------------------------
 
