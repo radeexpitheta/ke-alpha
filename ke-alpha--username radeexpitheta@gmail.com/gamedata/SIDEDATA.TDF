@@ -1,12 +1,12 @@
 [SIDE0]
 {
-	name=Cubire;
-	commander=base;
+	name=Assault;
+	commander=inf;
 }
 [SIDE1]
 {
-	name=Spheratists;
-	commander=sepcore;
+	name=Infiltrator;
+	commander=crsytal;
 }
 [CANBUILD]
 {

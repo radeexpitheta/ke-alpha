@@ -41,9 +41,9 @@ local unitDef = {
   useBuildingGroundDecal = true,  
   yardMap            = "f",
   unitname			 = unitName,
-  customparams = {
-  	factionname		   = "structure",
-  },
+  --customparams = {
+  --	factionname		   = "structure",
+  --},
 }
 --------------------------------------------------------------------------------
 

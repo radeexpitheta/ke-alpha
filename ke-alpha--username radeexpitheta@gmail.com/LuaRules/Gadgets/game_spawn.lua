@@ -67,7 +67,7 @@ local function SpawnStartUnit(teamID)
 		x, z = 16*math.floor((x+8)/16), 16*math.floor((z+8)/16)
 		y = Spring.GetGroundHeight(x, z)
 		local facing = GetFacing(startUnit,x,z)
-		--local newUnit = Spring.CreateUnit("crystal",x,y,z,0,teamID)
+		local newUnit = Spring.CreateUnit("inf",x,y,z,0,teamID)
 		local unitID = Spring.CreateUnit(startUnit, x, y, z, facing, teamID)
 		
 		local sidedata = Spring.GetSideData(teamID)
