@@ -19,7 +19,7 @@ function gadget:GetInfo()
 		date      = "January, 2010",
 		license   = "GNU GPL, v2 or later",
 		layer     = 0,
-		enabled   = true  --  loaded by default?
+		enabled   = true
 	}
 end
 
@@ -35,6 +35,7 @@ end
 --------------------------------------------------------------------------------
 
 local modOptions = Spring.GetModOptions()
+
 
 local function GetStartUnit(teamID)
 	-- get the team startup info
@@ -53,6 +54,13 @@ local function GetStartUnit(teamID)
 end
 
 local function GetFacing(name,x,z)
+	local hasFacingImplementedElsewhere = {
+		["inf"]=true,
+		--["hole"]=true,
+	}
+	if hasFacingImplementedElsewhere[name] then
+		return 0
+	end
 	return math.abs(Game.mapSizeX/2 - x) > math.abs(Game.mapSizeZ/2 - z)
 		and ((x>Game.mapSizeX/2) and "west" or "east")
 		or ((z>Game.mapSizeZ/2) and "north" or "south")
@@ -63,18 +71,12 @@ local function SpawnStartUnit(teamID)
 	if (startUnit and startUnit ~= "") then
 		-- spawn the specified start unit
 		local x,y,z = Spring.GetTeamStartPosition(teamID)
-		-- snap to 16x16 grid
-		x, z = 16*math.floor((x+8)/16), 16*math.floor((z+8)/16)
+		x, z = 8*math.floor((x+4)/8), 8*math.floor((z+4)/8)
 		y = Spring.GetGroundHeight(x, z)
-		local facing = GetFacing(startUnit,x,z)
-		local newUnit = Spring.CreateUnit("inf",x,y,z,0,teamID)
+		local facing=GetFacing(startUnit,x,z)
 		local unitID = Spring.CreateUnit(startUnit, x, y, z, facing, teamID)
-		
-		local sidedata = Spring.GetSideData(teamID)
-
+		-- set the *team's* lineage root
 		if unitID and Spring.SetUnitLineage then
-			-- set the *team's* lineage root
-			Spring.SetUnitLineage(newUnit, teamID, true)
 			Spring.SetUnitLineage(unitID, teamID, true)
 		end
 	end
@@ -106,23 +108,18 @@ end
 
 
 function gadget:GameStart()
-	-- only activate if engine didn't already spawn units (compatibility)
-	--if (#Spring.GetAllUnits() == 0) then
-		-- spawn start units
-		local gaiaTeamID = Spring.GetGaiaTeamID()
-		local teams = Spring.GetTeamList()
-		if getfenv(0).AllowUnsafeChanges then
-			getfenv(0).AllowUnsafeChanges("USE AT YOUR OWN PERIL")
-		end
-		for i = 1,#teams do
-			local teamID = teams[i]
-			-- don't spawn a start unit for the Gaia team
-			if (teamID ~= gaiaTeamID) then
+	if getfenv(0).AllowUnsafeChanges then
+		getfenv(0).AllowUnsafeChanges("USE AT YOUR OWN PERIL")
+	end
+	local gaiaTeamID = Spring.GetGaiaTeamID()
+	for _,teamID in ipairs(Spring.GetTeamList()) do
+		if teamID~=gaiaTeamID then -- don't spawn a start unit for the Gaia team
+			if #Spring.GetTeamUnits(teamID)==0 then -- only if the engine hasn't already spawned a start unit
 				SpawnStartUnit(teamID)
 			end
 		end
-		if getfenv(0).AllowUnsafeChanges then
-			getfenv(0).AllowUnsafeChanges("Any string to turn it off")
-		end
-	--end
+	end
+	if getfenv(0).AllowUnsafeChanges then
+		getfenv(0).AllowUnsafeChanges("Any string to turn it off")
+	end
 end

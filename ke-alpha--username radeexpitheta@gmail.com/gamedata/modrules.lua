@@ -4,7 +4,7 @@ local modRules = {
 	},
 	experience = {
 		powerScale					=	0.1,
-		healthScale					=	0.1,
+		healthScale					=	0.5,
 		reloadScale					=	0.1,
 		experienceMult			=	10,
 	},
@@ -18,13 +18,6 @@ local modRules = {
 		allow_team_colours	=	false,
 	},
 
-	CONSTRUCTION = {
-{
-	constructionDecay = 1,
-	constructionDecayTime = 0,
-	constructionDecaySpeed = 0.001,
-},
-},
 }
 
 return modRules
