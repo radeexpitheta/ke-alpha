@@ -11,8 +11,8 @@ function gadget:GetInfo()
 end
 
 local exempt= {
-	[WeaponDefNames.grenade.id]=1.0,
-	[WeaponDefNames.burner.id]=1.0,
+--	[WeaponDefNames.grenade.id]=1.0,
+--	[WeaponDefNames.burner.id]=1.0,
 }
 
 local GetUnitAllyTeam = Spring.GetUnitAllyTeam
