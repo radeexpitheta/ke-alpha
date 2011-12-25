@@ -47,7 +47,7 @@ local fz4 = 13.736
 local equipa = nil 
 --local equipb = nil
 
-local PACE = 1.4
+local PACE = 2.2
 
 local SIG_Walk = 1
 local SIG_Aim = 2
@@ -96,6 +96,8 @@ function script.Create()
 	Hide( mgun)
 	Hide( cshot)	
 	bMoving = false
+	equipa = nil
+	--equipb = nil
 	
 end
 
@@ -135,13 +137,11 @@ function script.StopMoving()
 end
 
 function script.AimWeapon(num, heading, pitch)
-	local prime = nil
-	if (equipa == wrifle) then prime = 1 end
-	if (equipa == wrifle) then prime = 1 end
-	if (equipa == wrifle) then prime = 1 end
-	if (equipa == wrifle) then prime = 1 end
-	if prime ~= nil then return false
-		else
+	if equipa ~= nil then
+		if (equipa == wrifle) and (num ~= 1) then return false end
+		if (equipa == wsmg) and (num ~= 2) then return false end
+		if (equipa == wmgun) and (num ~= 3) then return false end
+		if (equipa == wcshot) and (num ~= 4) then return false end
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
 		Turn( rarm , y_axis, heading, math.rad(360) ) -- left-right
@@ -150,6 +150,8 @@ function script.AimWeapon(num, heading, pitch)
 		WaitForTurn(rarm, x_axis)
 		StartThread(RestoreAfterDelay)
 		return true
+	else
+	return false 
 	end
 end
 
@@ -177,6 +179,17 @@ function script.TransportDrop ( passengerID, x, y, z )
 end
 
 function script.EndTransport(each, passengerID)
+	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
+	passengerteam = Spring.GetUnitAllyTeam (passengerID)
+	local udid = Spring.GetUnitDefID(passengerID)
+	local pdef = UnitDefs[udid]
+	if pdef == equipa then
+		if equipa == "wrifle" then hide( rifle) end
+		if equipa == "wsmg" then hide( smg) end
+		if equipa == "wmgun" then hide( mgun) end
+		if equipa == "wcshot" then hide( cshot) end
+	equipa = nil
+	end	
 end
 
 function script.TransportPickup (passengerID)	
@@ -186,18 +199,19 @@ function script.TransportPickup (passengerID)
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
 	--Spring.Echo (pdef.name)	
-	if (pdef.name == "wrifle") or (pdef.name == "wsmg") or (pdef.name == "wmgun") or (pdef.name == "wcshot")
+	if (pdef.name == "wrifle") or 
+	   (pdef.name == "wsmg") or 
+	   (pdef.name == "wmgun") or 
+	   (pdef.name == "wcshot")
 		then 
 		Spring.Echo ("A weapon!! Yay!")	
 		Spring.SetUnitNoSelect (passengerID, true)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
-		if equipa == unitDef.name
-			then
-			local sid = tostring(unitDef.name)
-			wepid = string.find(sid, "%s*=%s*(%a+)")
-			Show( wepid)	
-		else equipa = nil
-		end	
+		equipa = pdef.name	
+		if equipa == "wrifle" then show( rifle) end
+		if equipa == "wsmg" then show( smg) end
+		if equipa == "wmgun" then show( mgun) end
+		if equipa == "wcshot" then show( cshot) end
 	else
 	Spring.Echo ("not a weapon")	
 	end

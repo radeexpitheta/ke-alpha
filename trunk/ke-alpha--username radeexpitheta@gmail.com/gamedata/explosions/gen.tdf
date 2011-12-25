@@ -1,0 +1,169 @@
+[Bullet] {
+	usedefaultexplosions=0;
+	[miss] {
+		class=CExpGenSpawner;
+		[properties]{
+			pos=0, 0,  0;
+			delay=0;				
+			explosionGenerator=custom:Bullet_Miss;
+		}
+		nounit=1;
+		count=1;
+	}
+}
+
+[Bullet_Miss] {
+	[ground]{
+		class = CBitmapMuzzleFlame;  
+		[properties]{
+			dir = -0.1 r0.2, 1, -0.1 r0.2;
+			colorMap=0.5 0.4 0.3 1  0.05 0.04 0.03 0.1;
+			size=1 r0.5;
+			length=4 r8;
+			sizeGrowth=1;
+			ttl=12;
+			frontOffset=0;
+			sideTexture=splashside;
+			frontTexture=splashbase;
+		}
+		ground=1;
+		count=2;
+	}
+	
+	[water]{
+		class = CBitmapMuzzleFlame;  
+		[properties]{
+			dir = -0.1 r0.2, 1, -0.1 r0.2;
+			colorMap=0.45 0.45 0.5 0.5  0.045 0.045 0.05 0.05; 
+			size=1 r0.5;
+			length=4 r8;
+			sizeGrowth=1;
+			ttl=12;
+			frontOffset=0;
+			sideTexture=splashside;
+			frontTexture=splashbase;
+		}
+		water=1;
+		count=2;
+	}
+}
+
+[MissileTrail] {
+	[smoke] {
+		class=CSimpleParticleSystem;
+		[properties]{
+			sizeGrowth=0.4 r0.2;
+			sizeMod=1;
+			pos=0, 0, 0;
+			emitVector=dir;
+			gravity=0, 0, 0;
+			colorMap=1 1 0.5 0.25  0.18 0.18 0.18 0.24  0.15 0.15 0.15 0.20  0.12 0.12 0.12 0.16  0.09 0.09 0.09 0.12  0.06 0.06 0.06 0.08  0.03 0.03 0.03 0.04  0 0 0 0;
+			Texture=smokesmall;
+			airdrag=0.5;
+			particleLife=4;
+			particleLifeSpread=6;
+			numParticles=1;
+			particleSpeed=i2;
+			particleSpeedSpread=1;
+			particleSize=1;
+			particleSizeSpread=2;
+			emitRot=0;
+			emitRotSpread=2;
+			directional=0;
+			alwaysVisible=0;
+		}
+		air=1;
+		water=1;
+		ground=1;
+		count=16;
+	}
+}
+
+
+[ARTILLERY_EXPLOSION]
+{
+	[pop2]
+	{
+	class=heatcloud;
+   	
+		[properties]
+      		{
+		texture=explo;
+      		heat = 10;
+      		maxheat = 15;
+      		heatFalloff = 0.5;
+
+      		size = 45 r-1.5;
+      		sizeGrowth = 0.9;
+
+         	pos = r-25 r25, 5, r-25 r25;
+         	speed=r-1 r1, 1 0, r-1 r1;
+      		}
+	air=1;
+      	water=1;
+      	ground=1;
+      	count=5;
+	} 
+
+	[pop1]
+	{
+	class=heatcloud;
+   	
+		[properties]
+      		{
+		texture=redexplo;
+      		heat = 10;
+      		maxheat = 15;
+      		heatFalloff = 0.4;
+
+      		size = 55;
+      		sizeGrowth = 0.9;
+
+         	pos = r-2 r2, 3, r-2 r2;
+         	speed=0, 1 0, 0;
+      		}
+	air=1;
+      	water=1;
+      	ground=1;
+      	count=8;
+	} 
+
+	[smoke]
+	{
+	[properties]
+      		{
+         	color = 0.1;
+         	ageSpeed=0.04;
+
+         	startSize = 10;
+         	sizeExpansion = 0.6;
+         	size = 40;
+         	sizeGrowth = 15;
+
+         	pos = r-3 r3, r-3 r3, r-3 r3;
+         	speed=0, 1 r2.3, 0;
+      		}
+	air=1;
+      	water=1;
+      	ground=1;
+      	count=8;
+   	}
+
+
+	[groundflash]
+   	{
+      	ttl = 20;
+      	flashSize = 70;
+      	flashAlpha = 0.9;
+
+      	circleGrowth = 8;
+      	circleAlpha = 0.6;
+
+      	color = 1, 0.3, 0;
+
+	air=1;
+     	ground=1;
+      	water=1;
+	}
+
+}

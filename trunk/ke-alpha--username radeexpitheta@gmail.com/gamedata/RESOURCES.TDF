@@ -43,33 +43,82 @@
 		{
 			groundflash=groundflash.tga;
 			groundring=groundring.tga;
-
-			seismic=circles.tga;
-
+			seismic=GPL/circles.png;
 		}
 		[projectiletextures]
 		{
+			//--------Spring Effects--------
 			circularthingy=circularthingy.tga;
 			laserend=laserend.tga;
 			laserfalloff=laserfalloff.tga;
 			randdots=randdots.tga;
-			smoketrail=smoketrail.tga;
-			wake=wake.tga;
-			flare=null.tga;
-			explo=null.tga;
-			explofade=null.tga;
-			heatcloud=null.tga;
-			flame=flame.tga;
+			smoketrail=PD/smoketrail.tga;
+			wake=GPL/wake.png;
+			flare=flare.tga;
+			explofade=explofade.tga;
+			heatcloud=GPL/explo.png;
+			explo=GPL/fire.png;
 
-			muzzleside=muzzleside.tga;
-			muzzlefront=muzzlefront.tga;
-			largebeam=largelaserfalloff.tga;
+			gfxtexture=GPL/nano.tga;
+			bubbletexture=PD/BubbleAlpha.tga;
+			dguntexture=GPL/flash2.tga;
+			sphereparttexture=cdet.bmp;
+			repulsegfxtexture=cdet.bmp;
+
 			
-			box=solidwhite.tga;
-			boxlined=outlinedBox.tga;
-			shockwave=shockwave.tga;
-			circle=circleSolid.tga;
+			//-----------Saktoths-----------
+			flame=Saktoths/flame.tga;
+			cloudexplo=Saktoths/cloudexplo.tga;
+			sakexplo=Saktoths/sakexplo.tga;
+			fireball2=Saktoths/fireball.tga;
+			//------------------------------
 
+			WhiteLight=GPL/lightw.bmp;
+			kfoam=Other/foam.tga;
+			bubble=PD/BubbleAlpha.tga;
+			shell=PD/shell.tga;
+			plasma2=GPL/plasma.tga;
+			flowerflash=PD/flowerflash.tga;
+			plasma=GPL/plasma.tga;
+			redexplo=CC/redexplo.tga;
+			pinkexplo=CC/pinkexplo.tga;
+			brightblueexplo=CC/brightblueexplo.tga;
+			blueexplo=CC/blueexplo.tga;
+			purpleexplo=CC/purpleexplo.tga;
+			pinkexplo=CC/pinkexplo.tga;
+			diamondstar=Other/diamondstar.tga;
+			smoke=PD/smokesmall.tga;
+			orangesmoke2=PD/SmokeOrange.tga;
+			smokesmall=PD/smokesmall.tga;
+			lightb=PD/lightningball.tga;
+			lightring=PD/lightring.tga;
+	    		whitelightb=PD/whitelightningball.tga;
+			lightb3=PD/lightningball3.tga;
+			lightb4=PD/lightningball4.tga;
+			lightning=PD/lightning.tga;
+			dust=Other/dust.tga;
+			kburst=Other/burst.tga;
+			plasma0029=Other/plasma0029.tga;
+			orangesmoke=PD/orangesmoke.tga;
+			fireball=PD/fireball.tga;
+			dirtplosion2=PD/dirtplosion2.tga;
+			debris2=Other/debris2.tga;
+			debris=Other/debris.tga;
+			kfoom=Other/Foom.tga;
+			largelaser=largelaserfalloff.tga;
+			smallflare=GPL/smallflare.tga;
+			
+			bigexplo=bigexplo.tga;
+			bigexplosmoke=bigexplosmoke.tga;
+			beamrifletip=beamrifletip.tga;
+			beamrifle=beamrifle.tga;
+			largebeam=largelaserfalloff.tga;
+			//new
+			bullet=cc/gunshot.tga;
+			jet=GPL/jet2.tga;
+			flash=cc/flash3.tga;
+			flashside=cc/flashside1.tga;
+			CubeShot=bullet.png; 
 		}
 	}
 }
