@@ -29,10 +29,10 @@ local shell = piece "shell"
 
 ------------------------- [[ Weapon Data ]] --------------------
 -- ids
-local w1 = wrifle
-local w2 = wsmg
-local w3 = wmgun
-local w4 = wcshot
+local w1 = "wrifle"
+local w2 = "wsmg"
+local w3 = "wmgun"
+local w4 = "wcshot"
 
 -- flare position
 local fy1 = 1.399
@@ -86,19 +86,45 @@ local function Walk()
 	end
 end
 
+local function Equip()
+	while true do
+		if equipa == w1 then 
+			Show(piece "rifle") 
+			Move( flare, y_axis, fy1, 999 )
+			Move( flare, z_axis, fz1, 999 )
+		end
+		if equipa == w2 then 
+			Show(piece "smg") 
+			Move( flare, y_axis, fy2, 999 )
+			Move( flare, z_axis, fz2, 999 )
+		end
+		if equipa == w3 then 
+			Show(piece "mgun") 
+			Move( flare, y_axis, fy3, 999 )
+			Move( flare, z_axis, fz3, 999 )
+		end
+		if equipa == w4 then 
+			Show(piece "cshot") 
+			Move( flare, y_axis, fy4, 999 )
+			Move( flare, z_axis, fz4, 999 )
+		end		
+		Sleep( 250 )
+	end
+end
+
 function script.Create()
-	Hide( rot)
-	Hide( blood)
-	Hide( flare)
-	Hide( shell)
-	Hide( rifle)
-	Hide( smg)
-	Hide( mgun)
-	Hide( cshot)	
+	Hide(rot)
+	Hide(blood)
+	Hide(flare)
+	Hide(shell)
+	Hide(rifle)
+	Hide(smg)
+	Hide(mgun)
+	Hide(cshot)	
 	bMoving = false
 	equipa = nil
 	--equipb = nil
-	
+	StartThread(Equip)
 end
 
 
@@ -138,10 +164,6 @@ end
 
 function script.AimWeapon(num, heading, pitch)
 	if equipa ~= nil then
-		if (equipa == wrifle) and (num ~= 1) then return false end
-		if (equipa == wsmg) and (num ~= 2) then return false end
-		if (equipa == wmgun) and (num ~= 3) then return false end
-		if (equipa == wcshot) and (num ~= 4) then return false end
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
 		Turn( rarm , y_axis, heading, math.rad(360) ) -- left-right
@@ -155,12 +177,19 @@ function script.AimWeapon(num, heading, pitch)
 	end
 end
 
+function script.BlockShot(num)
+	if (num == 1) then  return (equipa ~= w1)  end
+	if (num == 2) then  return (equipa ~= w2)  end
+	if (num == 3) then  return (equipa ~= w3)  end
+	if (num == 4) then  return (equipa ~= w4)  end
+end
+
 function script.AimFromWeapon(num)
-	return fire
+	return flare
 end
 
 function script.QueryWeapon(num)
-	return fire
+	return flare
 end
 
 function script.Shot(num)
@@ -199,19 +228,15 @@ function script.TransportPickup (passengerID)
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
 	--Spring.Echo (pdef.name)	
-	if (pdef.name == "wrifle") or 
-	   (pdef.name == "wsmg") or 
-	   (pdef.name == "wmgun") or 
-	   (pdef.name == "wcshot")
+	if (pdef.name == w1) or 
+	   (pdef.name == w2) or 
+	   (pdef.name == w3) or 
+	   (pdef.name == w4)
 		then 
 		Spring.Echo ("A weapon!! Yay!")	
 		Spring.SetUnitNoSelect (passengerID, true)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
 		equipa = pdef.name	
-		if equipa == "wrifle" then show( rifle) end
-		if equipa == "wsmg" then show( smg) end
-		if equipa == "wmgun" then show( mgun) end
-		if equipa == "wcshot" then show( cshot) end
 	else
 	Spring.Echo ("not a weapon")	
 	end
