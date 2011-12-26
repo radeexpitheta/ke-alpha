@@ -29,14 +29,17 @@ local shell = piece "shell"
 
 ------------------------- [[ Weapon Data ]] --------------------
 -- ids
-local w1 = "wrifle"
-local w2 = "wsmg"
-local w3 = "wmgun"
-local w4 = "wcshot"
+local w1a = "wrifle"
+local w1b = "wsmg"
+local w2a = "wshot"
+local w3a = "wmgun"
+local w4a = "wcshot"
 
 -- flare position
-local fy1 = 1.399
-local fz1 = 12.709
+local fy1a = 1.399
+local fz1a = 12.709
+local fy1b = 2.375
+local fz1b = 7.206
 local fy2 = 2.375
 local fz2 = 7.206
 local fy3 = 1.560
@@ -44,8 +47,8 @@ local fz3 = 19.749
 local fy4 = 0.541
 local fz4 = 13.736
 ---------------------------------------------------------------
-local equipa
---local equipb
+local equip
+local equipID
 
 local PACE = 2.2
 
@@ -86,36 +89,45 @@ local function Walk()
 	end
 end
 
+local function Hideall()
+	Hide(rifle)
+	Hide(smg)
+	Hide(mgun)
+	Hide(cshot)	
+end
+
 local function Inventory()
-	Spring.Echo ("inventory started")
-	while true do
-		if equipa == w1 then 
-			Show(piece "rifle") 
-			Move( flare, y_axis, fy1, 999 )
-			Move( flare, z_axis, fz1, 999 )
-		end
-		if equipa == w2 then 
-			Show(piece "smg") 
-			Move( flare, y_axis, fy2, 999 )
-			Move( flare, z_axis, fz2, 999 )
-		end
-		if equipa == w3 then 
-			Show(piece "mgun") 
-			Move( flare, y_axis, fy3, 999 )
-			Move( flare, z_axis, fz3, 999 )
-		end
-		if equipa == w4 then 
-			Show(piece "cshot") 
-			Move( flare, y_axis, fy4, 999 )
-			Move( flare, z_axis, fz4, 999 )
-		end		
-		Spring.Echo ("equiped with: ", equipa)
-		Spring.Echo ("w1 is: ", w1)
-		Spring.Echo ("w2 is: ", w2)
-		Spring.Echo ("w3 is: ", w3)
-		Spring.Echo ("w4 is: ", w4)
-		Sleep( 1250 )
+	Hideall()
+	if equip == w1a then 
+	  --  Spring.SetUnitWeaponState(unitID, 0, {sprayAngle = 20})
+		Spring.SetUnitWeaponState(unitID, 0, {range = 600})
+		Spring.SetUnitWeaponState(unitID, 0, {reloadTime = 2})
+		Spring.SetUnitWeaponState(unitID, 0, {burst = 2})
+		Spring.SetUnitWeaponState(unitID, 0, {burstRate = 0.3})
+		Show(piece "rifle") 
+		Move( flare, y_axis, fy1a, 999 )
+		Move( flare, z_axis, fz1a, 999 )
 	end
+	if equip == w1b then 
+	--	Spring.SetUnitWeaponState(unitID, 0, {sprayAngle = 50})
+		Spring.SetUnitWeaponState(unitID, 0, {range = 300})
+		Spring.SetUnitWeaponState(unitID, 0, {reloadTime = 0.3})
+		Spring.SetUnitWeaponState(unitID, 0, {burst = 1})
+		Show(piece "smg") 
+		Move( flare, y_axis, fy1b, 999 )
+		Move( flare, z_axis, fz1b, 999 )
+	end
+	if equip == w3a then 
+		Show(piece "mgun") 
+		Move( flare, y_axis, fy3, 999 )
+		Move( flare, z_axis, fz3, 999 )
+	end
+	if equip == w4a then 
+		Show(piece "cshot") 
+		Move( flare, y_axis, fy4, 999 )
+		Move( flare, z_axis, fz4, 999 )
+	end		
+	Spring.Echo ("equiped with: ", equip)
 end
 
 function script.Create()
@@ -123,12 +135,8 @@ function script.Create()
 	Hide(blood)
 	Hide(flare)
 	Hide(shell)
-	Hide(rifle)
-	Hide(smg)
-	Hide(mgun)
-	Hide(cshot)	
+	Hideall()
 	bMoving = false
-	StartThread(Inventory)
 end
 
 
@@ -167,11 +175,19 @@ function script.StopMoving()
 end
 
 function script.AimWeapon(num, heading, pitch)
-	if equipa ~= nil then
-		if (num == 1) and (equipa ~= w1)  then Spring.Echo ("no w1") return false end
-		if (num == 2) and (equipa ~= w2)  then Spring.Echo ("no w2") return false end
-		if (num == 3) and (equipa ~= w3)  then Spring.Echo ("no w3") return false end
-		if (num == 4) and (equipa ~= w4)  then Spring.Echo ("no w4") return false end
+	if equip ~= nil then
+		if (num == 1) then
+			if not (equip == w1a or equip == w1b) then Spring.Echo("w1 fail") return false end
+		end	
+		if (num == 2) then
+			if not (equip == w2a or equip == w2b) then return false end
+		end	
+		if (num == 3) then
+			if not (equip == w3a or equip == w3b) then return false end
+		end	
+		if (num == 4) then
+			if not (equip == w4a or equip == w4b) then return false end
+		end	
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
 		Turn( rarm , y_axis, heading, math.rad(360) ) -- left-right
@@ -205,40 +221,36 @@ end
 function script.QueryTransport(passengerID)
 	return -1
 end
-function script.TransportDrop ( passengerID, x, y, z )
-	Spring.Echo ("transport drop?")	
-	--Spring.UnitScript.DetachUnit (passengerID)
+function script.EndTransport(each)
 end
 
-function script.EndTransport(each, passengerID)
-	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
-	passengerteam = Spring.GetUnitAllyTeam (passengerID)
-	local udid = Spring.GetUnitDefID(passengerID)
-	local pdef = UnitDefs[udid]
-	if pdef.name == equipa then
-		if equipa == "wrifle" then hide( rifle) equipa = nil end
-		if equipa == "wsmg" then hide( smg) equipa = nil end
-		if equipa == "wmgun" then hide( mgun) equipa = nil end
-		if equipa == "wcshot" then hide( cshot) equipa = nil end
-		Spring.Echo ("Bye weapon! Its a ", pdef.name)		
+function script.TransportDrop (passengerID)
+	--Spring.Echo ("Bye ", passengerID, "but is it ", equipID)	
+	if (passengerID == equipID) then
+		--Spring.Echo ("Bye weapon! Its a ", equip)		
+		Hideall()
+		equip = nil
+		equipID = nil
 	end	
+	--Spring.UnitScript.DetachUnit(passengerID)
 end
 
 function script.TransportPickup (passengerID)	
+	local oldgun = equip
+	local oldID = equipID
 	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
 	passengerteam = Spring.GetUnitAllyTeam (passengerID)
 	Spring.Echo ("transport pick up")
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
-	if (pdef.name == w1) or 
-	   (pdef.name == w2) or 
-	   (pdef.name == w3) or 
-	   (pdef.name == w4)
-		then 
+	if (pdef.name == w1a) or (pdef.name == w1b) or (pdef.name == w2a) or (pdef.name == w3a) or (pdef.name == w4a) then 
 		Spring.Echo ("A weapon!! Yay! Its a ", pdef.name)	
 		Spring.SetUnitNoSelect (passengerID, true)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
-		if pdef.name ~= nil then equipa = pdef.name end
+		equipID = passengerID 
+		equip = pdef.name 
+		if (oldID ~= nil) and (oldID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID) Spring.UnitScript.DetachUnit(oldID) end
+		Inventory()
 	else
 	Spring.Echo ("not a weapon. Its a ", pdef.name)	
 	end
