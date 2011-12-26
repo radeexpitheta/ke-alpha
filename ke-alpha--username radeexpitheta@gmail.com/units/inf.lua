@@ -79,9 +79,9 @@ local unitDef = {
   --TRANSPORT--
 	  isTransport = true,
 	  ReleaseHeld = true,		--transported units survive if transporter dies
-	  TransportCapacity = 1,    --The number of units the transport can carry
+	  TransportCapacity = 2,    --The number of units the transport can carry
 	  transportSize = 500,
-	  TransportMass = 100,
+	  TransportMass = 101,
 	  transportUnloadMethod = 2,
   turnInPlace	    = 1,
   turnRate           = 1500,
@@ -229,15 +229,13 @@ RecGun = {
 	 name                    = [[Rifle]],
       areaOfEffect            = 8,
       avoidFeature            = false,
-      burst                   = 3,
-      burstrate               = 0.1,
 	  canAttackGround		  = false,
       collideFriendly         = false,
       craterBoost             = 0,
       craterMult              = 0,
 
       damage = {
-			default = 5,
+			default = 20,
 			base = 0,
 			veh = 0;
 				},
@@ -255,7 +253,7 @@ RecGun = {
       movingAccuracy     = 888,
       noSelfDamage            = true,
        duration                = 0.01,
-      range                   = 600,
+      range                   = 400,
       reloadtime              = 2,
       renderType              = 0,
       rgbColor                = [[1 0.7 0.2]],
