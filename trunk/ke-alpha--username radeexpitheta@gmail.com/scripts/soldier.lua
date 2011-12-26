@@ -44,8 +44,8 @@ local fz3 = 19.749
 local fy4 = 0.541
 local fz4 = 13.736
 ---------------------------------------------------------------
-local equipa = nil 
---local equipb = nil
+local equipa
+--local equipb
 
 local PACE = 2.2
 
@@ -108,7 +108,12 @@ local function Equip()
 			Move( flare, y_axis, fy4, 999 )
 			Move( flare, z_axis, fz4, 999 )
 		end		
-		Sleep( 250 )
+		Spring.Echo ("equiped with: ", equipa)
+		Spring.Echo ("w1 is: ", w1)
+		Spring.Echo ("w2 is: ", w2)
+		Spring.Echo ("w3 is: ", w3)
+		Spring.Echo ("w4 is: ", w4)
+		Sleep( 1250 )
 	end
 end
 
@@ -122,14 +127,12 @@ function script.Create()
 	Hide(mgun)
 	Hide(cshot)	
 	bMoving = false
-	equipa = nil
-	--equipb = nil
 	StartThread(Equip)
 end
 
 
 local function RestoreAfterDelay()
-	Sleep( 2750)
+	Sleep( 3000)
 	Turn( rarm , y_axis, 0, math.rad(90) )
 	Turn( rarm , x_axis, 0, math.rad(90) )
 end
@@ -164,6 +167,10 @@ end
 
 function script.AimWeapon(num, heading, pitch)
 	if equipa ~= nil then
+		if (num == 1) and (equipa ~= w1)  then Spring.Echo ("no w1") return false end
+		if (num == 2) and (equipa ~= w2)  then Spring.Echo ("no w2") return false end
+		if (num == 3) and (equipa ~= w3)  then Spring.Echo ("no w3") return false end
+		if (num == 4) and (equipa ~= w4)  then Spring.Echo ("no w4") return false end
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
 		Turn( rarm , y_axis, heading, math.rad(360) ) -- left-right
@@ -177,12 +184,6 @@ function script.AimWeapon(num, heading, pitch)
 	end
 end
 
-function script.BlockShot(num)
-	if (num == 1) then  return (equipa ~= w1)  end
-	if (num == 2) then  return (equipa ~= w2)  end
-	if (num == 3) then  return (equipa ~= w3)  end
-	if (num == 4) then  return (equipa ~= w4)  end
-end
 
 function script.AimFromWeapon(num)
 	return flare
@@ -204,6 +205,7 @@ function script.QueryTransport(passengerID)
 	return -1
 end
 function script.TransportDrop ( passengerID, x, y, z )
+	Spring.Echo ("transport drop?")	
 	--Spring.UnitScript.DetachUnit (passengerID)
 end
 
@@ -212,12 +214,12 @@ function script.EndTransport(each, passengerID)
 	passengerteam = Spring.GetUnitAllyTeam (passengerID)
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
-	if pdef == equipa then
-		if equipa == "wrifle" then hide( rifle) end
-		if equipa == "wsmg" then hide( smg) end
-		if equipa == "wmgun" then hide( mgun) end
-		if equipa == "wcshot" then hide( cshot) end
-	equipa = nil
+	if pdef.name == equipa then
+		if equipa == "wrifle" then hide( rifle) equipa = nil end
+		if equipa == "wsmg" then hide( smg) equipa = nil end
+		if equipa == "wmgun" then hide( mgun) equipa = nil end
+		if equipa == "wcshot" then hide( cshot) equipa = nil end
+		Spring.Echo ("Bye weapon! Its a ", pdef.name)		
 	end	
 end
 
@@ -227,18 +229,17 @@ function script.TransportPickup (passengerID)
 	Spring.Echo ("transport pick up")
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
-	--Spring.Echo (pdef.name)	
 	if (pdef.name == w1) or 
 	   (pdef.name == w2) or 
 	   (pdef.name == w3) or 
 	   (pdef.name == w4)
 		then 
-		Spring.Echo ("A weapon!! Yay!")	
+		Spring.Echo ("A weapon!! Yay! Its a ", pdef.name)	
 		Spring.SetUnitNoSelect (passengerID, true)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
-		equipa = pdef.name	
+		if pdef.name ~= nil then equipa = pdef.name end
 	else
-	Spring.Echo ("not a weapon")	
+	Spring.Echo ("not a weapon. Its a ", pdef.name)	
 	end
 end
 ------------------------
