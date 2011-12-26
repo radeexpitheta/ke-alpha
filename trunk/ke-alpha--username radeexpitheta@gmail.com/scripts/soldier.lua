@@ -86,7 +86,8 @@ local function Walk()
 	end
 end
 
-local function Equip()
+local function Inventory()
+	Spring.Echo ("inventory started")
 	while true do
 		if equipa == w1 then 
 			Show(piece "rifle") 
@@ -127,7 +128,7 @@ function script.Create()
 	Hide(mgun)
 	Hide(cshot)	
 	bMoving = false
-	StartThread(Equip)
+	StartThread(Inventory)
 end
 
 
