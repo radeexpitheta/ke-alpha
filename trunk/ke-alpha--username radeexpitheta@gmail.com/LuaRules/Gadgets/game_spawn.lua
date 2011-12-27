@@ -76,7 +76,8 @@ local function SpawnStartUnit(teamID)
 		local facing=GetFacing(startUnit,x,z)
 		local unitID = Spring.CreateUnit(startUnit, x, y, z, facing, teamID)
 		--wep spawn
-		Spring.CreateUnit(UnitDefNames.wrifle.id, (x + 5), y, (z + 5), facing, teamID)
+		Spring.CreateUnit(UnitDefNames.wrifle.id, (x +2 ), y, (z + 4), facing, teamID)
+		Spring.CreateUnit(UnitDefNames.wsmg.id, (x + 4), y, (z + 2), facing, teamID)
 		-- set the *team's* lineage root
 		if unitID and Spring.SetUnitLineage then
 			Spring.SetUnitLineage(unitID, teamID, true)

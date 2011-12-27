@@ -114,6 +114,7 @@
 			beamrifle=beamrifle.tga;
 			largebeam=largelaserfalloff.tga;
 			//new
+			blood=bldfx.tga;
 			bullet=cc/gunshot.tga;
 			jet=GPL/jet2.tga;
 			flash=cc/flash3.tga;
