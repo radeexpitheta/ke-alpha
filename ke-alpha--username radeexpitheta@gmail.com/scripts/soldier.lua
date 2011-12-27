@@ -211,8 +211,8 @@ function script.QueryWeapon(num)
 end
 
 function script.Shot(num)
-	EmitSfx( flare,  1024+0 )   --emit flare
-	--EmitSfx( shell,  1024+1 )   --emit shell
+	EmitSfx( flare,  1024+1 )   --emit flare
+	--EmitSfx( shell,  1024+2 )   --emit shell
 end
 
 -------Transporting-----
@@ -249,7 +249,7 @@ function script.TransportPickup (passengerID)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
 		equipID = passengerID 
 		equip = pdef.name 
-		if (oldID ~= nil) and (oldID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID) Spring.UnitScript.DetachUnit(oldID) end
+		if (oldID ~= nil) and (oldID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID) Spring.UnitScript.DropUnit(oldID) end
 		Inventory()
 	else
 	Spring.Echo ("not a weapon. Its a ", pdef.name)	
