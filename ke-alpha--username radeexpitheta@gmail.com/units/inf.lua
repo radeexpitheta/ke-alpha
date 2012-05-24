@@ -137,7 +137,7 @@ SmallBullet = {
       craterMult              = 0,
 
       damage = {
-			default = 5,
+			default = 12,
 			base = 0,
 			veh = 0;
 				},
@@ -174,8 +174,8 @@ SmallBullet = {
       weaponVelocity          = 900,
     },
 
-BigBullet = {
-	 name                    = [[Rifle]],
+MedBullet = {
+	 name                    = [[Med Caliber]],
       areaOfEffect            = 8,
       avoidFeature            = false,
 	  canAttackGround		  = false,
@@ -184,7 +184,7 @@ BigBullet = {
       craterMult              = 0,
 
       damage = {
-			default = 20,
+			default = 36,
 			base = 0,
 			veh = 0;
 				},
@@ -213,7 +213,54 @@ BigBullet = {
 	  soundTrigger			  = true,
       sprayAngle              = 300,
       startsmoke              = [[0]],
-	  thickness				  = 0.8,
+	  thickness				  = 0.9,
+      tolerance               = 600,
+      turret                  = true,
+      weaponTimer             = 1,
+      weapontype			  = "LaserCannon",
+      weaponVelocity          = 900,
+},
+
+BigBullet = {
+	 name                    = [[Large Caliber]],
+      areaOfEffect            = 8,
+      avoidFeature            = false,
+	  canAttackGround		  = false,
+      collideFriendly         = false,
+      craterBoost             = 0,
+      craterMult              = 0,
+
+      damage = {
+			default = 110,
+			base = 0,
+			veh = 0;
+				},
+
+      edgeEffectiveness       = 0.5,
+      endsmoke                = [[0]],
+      explosionGenerator      = [[custom:Bullet]],
+      firestarter             = 70,
+	  impactOnly 			= 1,
+      impulseBoost            = 0,
+      impulseFactor           = 0.2,
+      InterceptedByShieldType = 2,
+	   laserFlareSize     = 0.0001,
+	  leadbonus				  = 5, 
+      movingAccuracy     = 888,
+      noSelfDamage            = true,
+       duration                = 0.01,
+      range                   = 400,
+      reloadtime              = 2,
+      renderType              = 0,
+      rgbColor                = [[1 0.7 0.2]],
+      --soundHit                = [[Rifle]],
+	   coreThickness      = 0.2,
+      soundStart              = [[Rifle]],
+	  soundstartvolume		  = 0.5,
+	  soundTrigger			  = true,
+      sprayAngle              = 300,
+      startsmoke              = [[0]],
+	  thickness				  = 0.9,
       tolerance               = 600,
       turret                  = true,
       weaponTimer             = 1,

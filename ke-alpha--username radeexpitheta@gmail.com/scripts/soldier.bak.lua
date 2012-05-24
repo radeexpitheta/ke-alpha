@@ -1,71 +1,54 @@
 include "constants.lua"
-include "PlayerWepDeploy.lua"
 
---pieces----------------------------------------
+--pieces
 --body
 local base = piece "base"
 local head = piece "head"
 local torso = piece "torso"
 local pelvis = piece "pelvis"
+
+--appendages
 local larm = piece "larm"
 local lleg = piece "lleg"
 local lfoot = piece "lfoot"
 local rarm = piece "rarm"
 local rleg = piece "rleg"
 local rfoot = piece "rfoot"
-local wep = piece "wep"
 
 --weapons
-local wep = piece "wep"
-local prifle = piece "prifle"
-local pbatrif = piece "pbatrif"
-local psmg = piece "psmg"
-local pmgun = piece "pmgun"
-local pshot = piece "pshot"
-local pcshot = piece "pcshot"
-local pmagnm = piece "pmagnm"
-local pantim = piece "pantim"
-local psword = piece "psword"
-
---equipment
-local a2head = piece "a2head"
-local a2torso= piece "a2torso"
-local a3head = piece "a3head"
-local a3larm = piece "a3larm"
-local a3rarm = piece "a3rarm"
+local rifle = piece "rifle"
+local smg = piece "smg"
+local mgun = piece "mgun"
+local cshot = piece "cshot"
 
 --emitters
 local rot = piece "rot"
 local blood = piece "blood"
+local flare = piece "flare"
 local shell = piece "shell"
------------------------------------end of pieces---------------
 
+------------------------- [[ Weapon Data ]] --------------------
+-- ids
+local w1a = "wrifle"
+local w1b = "wsmg"
+local w2a = "wshot"
+local w3a = "wmgun"
+local w4a = "wcshot"
 
---- list function
-local function Set (list)
-  local set = {}
-  for _, l in ipairs(list) do set[l] = true end
-  return set
-end
--------------------------  Weapon and Item Data  -----------------------
---local w1a = "wsmg"  <<< old system
-local isweapon = Set { "wsmg", "wrifle", "wbatrif", "wshot", "wcshot", "wmagnm", "wantim", "wsword" }
-local wslot1 = Set { "wsmg", "wrifle", "wshot", "wcshot" }
-local wslot2 = Set { "wbatrif", "wmgun" }
-local wslot3 = Set { "wmgnm", "wantim" }
-local wslot4 = Set { "wsword" }
-local isarmor = Set { "a2", "a3"}
---local isitem = Set { "zhp", "zammo", "zshield"} <<not yet implemented
-local useflare = 0
-local useshell = 0
-local flare = piece "wep"
-local delay = 3000
-
--------------Behavior   Control locals --------------------------------------------------
+-- flare position
+local fy1a = 1.399
+local fz1a = 12.709
+local fy1b = 2.375
+local fz1b = 7.206
+local fy2 = 2.375
+local fz2 = 7.206
+local fy3 = 1.560
+local fz3 = 19.749
+local fy4 = 0.541
+local fz4 = 13.736
+---------------------------------------------------------------
 local equip
 local equipID
-local armor
-local armorID
 
 local PACE = 2.2
 
@@ -106,68 +89,59 @@ local function Walk()
 	end
 end
 
-local function HideallWep()
---- for wep and items
-	Hide(prifle)
-	Hide(pshot)
-	Hide(psmg)
-	Hide(pmgun)
-	Hide(pcshot)
-	Hide(pbatrif)
-	Hide(pmagnm)
-	Hide(pantim)
-	Hide(psword)
-	--items
-	--Hide(pheal)
-	--Hide(pcast)
+local function Hideall()
+	Hide(rifle)
+	Hide(smg)
+	Hide(mgun)
+	Hide(cshot)	
 end
 
-local function HideallArm()
-	Hide(a2head)
-	Hide(a2torso)
-	Hide(a3head)
-	Hide(a3rarm)
-	Hide(a3larm)	
-end
-
-local function Deploy()
-	HideallWep()
-	useflare = 0 
-	useshell = 0 --both are 0 unless specified
-	delay = 3000 -- adjust if need longer
-	DeployPlayerWep()	
+local function Inventory()
+	Hideall()
+	if equip == w1a then 
+	  --  Spring.SetUnitWeaponState(unitID, 0, {sprayAngle = 20})
+		Spring.SetUnitWeaponState(unitID, 0, {range = 600})
+		Spring.SetUnitWeaponState(unitID, 0, {reloadTime = 2})
+		Spring.SetUnitWeaponState(unitID, 0, {burst = 2})
+		Spring.SetUnitWeaponState(unitID, 0, {burstRate = 0.3})
+		Show(piece "rifle") 
+		Move( flare, y_axis, fy1a, 999 )
+		Move( flare, z_axis, fz1a, 999 )
+	end
+	if equip == w1b then 
+	--	Spring.SetUnitWeaponState(unitID, 0, {sprayAngle = 50})
+		Spring.SetUnitWeaponState(unitID, 0, {range = 300})
+		Spring.SetUnitWeaponState(unitID, 0, {reloadTime = 0.3})
+		Spring.SetUnitWeaponState(unitID, 0, {burst = 1})
+		Show(piece "smg") 
+		Move( flare, y_axis, fy1b, 999 )
+		Move( flare, z_axis, fz1b, 999 )
+	end
+	if equip == w3a then 
+		Show(piece "mgun") 
+		Move( flare, y_axis, fy3, 999 )
+		Move( flare, z_axis, fz3, 999 )
+	end
+	if equip == w4a then 
+		Show(piece "cshot") 
+		Move( flare, y_axis, fy4, 999 )
+		Move( flare, z_axis, fz4, 999 )
+	end		
 	Spring.Echo ("equiped with: ", equip)
-end
-
-local function DeployArmor()
-HideallArm()
-Spring.SetUnitArmored (UnitID, 1, 1) --default is 100
-	if Armor == A2 then
-		Spring.SetUnitArmored (UnitID, 1, 0.5) --x2 resistance
-		Show(piece "a2head") 
-		Show(piece "a2torso") 
-	end
-	if Armor == A3 then
-		Spring.SetUnitArmored (UnitID, 1, 0.25) --x4 resistance
-		Show(piece "a3head") 
-		Show(piece "a2torso") 
-		Show(piece "a3rarm") 
-		Show(piece "a3larm") 
-	end
-	--more later
 end
 
 function script.Create()
 	Hide(rot)
 	Hide(blood)
+	Hide(flare)
 	Hide(shell)
-	HideallWep()
-	HideallArm()
+	Hideall()
 	bMoving = false
 end
 
+
 local function RestoreAfterDelay()
-	Sleep( delay)
+	Sleep( 3000)
 	Turn( rarm , y_axis, 0, math.rad(90) )
 	Turn( rarm , x_axis, 0, math.rad(90) )
 end
@@ -203,17 +177,16 @@ end
 function script.AimWeapon(num, heading, pitch)
 	if equip ~= nil then
 		if (num == 1) then
-			if not wslot1[equip] then return false end
-			--old method >>  if not (equip == w1a or equip == w1b) then return false end
+			if not (equip == w1a or equip == w1b) then Spring.Echo("w1 fail") return false end
 		end	
 		if (num == 2) then
-			if not wslot2[equip] then return false end
+			if not (equip == w2a or equip == w2b) then return false end
 		end	
 		if (num == 3) then
-			if not wslot3[equip] then return false end
+			if not (equip == w3a or equip == w3b) then return false end
 		end	
 		if (num == 4) then
-			if not wslot4[equip] then return false end
+			if not (equip == w4a or equip == w4b) then return false end
 		end	
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
@@ -238,8 +211,8 @@ function script.QueryWeapon(num)
 end
 
 function script.Shot(num)
-	--if useflare == 1 then EmitSfx( flare,  1024+1 )   end
-	--if useshell == 1 then EmitSfx( shell,  1024+2 )   end
+	EmitSfx( flare,  1024+1 )   --emit flare
+	--EmitSfx( shell,  1024+2 )   --emit shell
 end
 
 -------Transporting-----
@@ -255,52 +228,32 @@ function script.TransportDrop (passengerID)
 	--Spring.Echo ("Bye ", passengerID, "but is it ", equipID)	
 	if (passengerID == equipID) then
 		--Spring.Echo ("Bye weapon! Its a ", equip)		
-		HideallWep()
+		Hideall()
 		equip = nil
 		equipID = nil
-	end	
-	if (passengerID == armorID) then	
-		HideallArm()
-		armor = nil
-		armorID = nil
 	end	
 	--Spring.UnitScript.DetachUnit(passengerID)
 end
 
 function script.TransportPickup (passengerID)	
-	----store previous item info---
 	local oldgun = equip
 	local oldID = equipID
-	local oldArmor = armor
-	local oldArmorID = armorID
-	--------------------------------
 	local unitDef = UnitDefs[Spring.GetUnitDefID(passengerID)]
 	passengerteam = Spring.GetUnitAllyTeam (passengerID)
 	Spring.Echo ("transport pick up")
 	local udid = Spring.GetUnitDefID(passengerID)
 	local pdef = UnitDefs[udid]
-	---check for wep
-	if isweapon[pdef.name] then
-		Spring.Echo ("A weapon! Its a ", pdef.name)	
+	if (pdef.name == w1a) or (pdef.name == w1b) or (pdef.name == w2a) or (pdef.name == w3a) or (pdef.name == w4a) then 
+		Spring.Echo ("A weapon!! Yay! Its a ", pdef.name)	
 		Spring.SetUnitNoSelect (passengerID, true)
 		Spring.UnitScript.AttachUnit (-1, passengerID)
 		equipID = passengerID 
 		equip = pdef.name 
 		if (oldID ~= nil) and (oldID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID) Spring.UnitScript.DropUnit(oldID) end
-		Deploy()
+		Inventory()
 	else
 	Spring.Echo ("not a weapon. Its a ", pdef.name)	
 	end
-	--check for armor
-	if isarmor[pdef.name] then
-		Spring.Echo ("I got armor! Its a ", pdef.name)	
-		Spring.SetUnitNoSelect (passengerID, true)
-		Spring.UnitScript.AttachUnit (-1, passengerID)
-		armorID = passengerID 
-		armor = pdef.name 
-		if (oldArmorID ~= nil) and (oldArmorID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldArmor, " ", oldArmorID) Spring.UnitScript.DropUnit(oldArmorID) end
-		DeployArmor()
-	end	
 end
 ------------------------
 
