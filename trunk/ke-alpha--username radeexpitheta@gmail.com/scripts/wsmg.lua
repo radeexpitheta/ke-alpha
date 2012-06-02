@@ -2,7 +2,7 @@ local base = piece 'base'
 local body = piece 'body' 
 
 local function fall()
-Turn( body, x_axis, math.rad(6), 1000 )
+Turn( body, x_axis, math.rad(2), 1000 )
 Turn( body, y_axis, math.rad(90), 1000 )
 end
 

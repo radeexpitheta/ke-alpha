@@ -17,6 +17,15 @@ local wep = piece "wep"
 
 --weapons
 local wep = piece "wep"
+local prifle = piece "prifle"
+local pbatrif = piece "pbatrif"
+local psmg = piece "psmg"
+local pmgun = piece "pmgun"
+local pshot = piece "pshot"
+local pcshot = piece "pcshot"
+local pmagnm = piece "pmagnm"
+local pantim = piece "pantim"
+local psword = piece "psword"
 
 --equipment
 local a2head = piece "a2head"
@@ -28,6 +37,7 @@ local a3rarm = piece "a3rarm"
 --emitters
 local rot = piece "rot"
 local blood = piece "blood"
+local shell = piece "shell"
 -----------------------------------end of pieces---------------
 
 
@@ -40,7 +50,15 @@ end
 -------------------------  Weapon and Item Data  -----------------------
 --local w1a = "wsmg"  <<< old system
 local isweapon = Set { "wsmg", "wrifle", "wbatrif", "wshot", "wcshot", "wmagnm", "wantim", "wsword" }
+local wslot1 = Set { "wsmg", "wrifle", "wshot", "wcshot" }
+local wslot2 = Set { "wbatrif", "wmgun" }
+local wslot3 = Set { "wmgnm", "wantim" }
+local wslot4 = Set { "wsword" }
 local isarmor = Set { "a2", "a3"}
+--local isitem = Set { "zhp", "zammo", "zshield"} <<not yet implemented
+local useflare = 0
+local useshell = 0
+local flare = piece "wep"
 local delay = 3000
 
 -------------Behavior   Control locals --------------------------------------------------
@@ -88,6 +106,22 @@ local function Walk()
 	end
 end
 
+local function HideallWep()
+--- for wep and items
+	Hide(prifle)
+	Hide(pshot)
+	Hide(psmg)
+	Hide(pmgun)
+	Hide(pcshot)
+	Hide(pbatrif)
+	Hide(pmagnm)
+	Hide(pantim)
+	Hide(psword)
+	--items
+	--Hide(pheal)
+	--Hide(pcast)
+end
+
 local function HideallArm()
 	Hide(a2head)
 	Hide(a2torso)
@@ -97,26 +131,23 @@ local function HideallArm()
 end
 
 local function Deploy()
-	local newrange = Spring.GetUnitWeaponState(equipID, 1, {range})
-	local newrange = Spring.GetUnitWeaponState(equipID, 1, {range})
-	Spring.SetUnitWeaponState(unitID, 1, {range = newrange}) 
-	if newreload ~= nil then 
-		delay = (1000 + tonumber(newreload))
-		else
-		delay = 2000
-	end
+	HideallWep()
+	useflare = 0 
+	useshell = 0 --both are 0 unless specified
+	delay = 3000 -- adjust if need longer
+	DeployPlayerWep()	
 	Spring.Echo ("equiped with: ", equip)
 end
 
 local function DeployArmor()
 HideallArm()
 Spring.SetUnitArmored (UnitID, 1, 1) --default is 100
-	if Armor == "A2" then
+	if Armor == A2 then
 		Spring.SetUnitArmored (UnitID, 1, 0.5) --x2 resistance
 		Show(piece "a2head") 
 		Show(piece "a2torso") 
 	end
-	if Armor == "A3" then
+	if Armor == A3 then
 		Spring.SetUnitArmored (UnitID, 1, 0.25) --x4 resistance
 		Show(piece "a3head") 
 		Show(piece "a2torso") 
@@ -129,8 +160,9 @@ end
 function script.Create()
 	Hide(rot)
 	Hide(blood)
+	Hide(shell)
+	HideallWep()
 	HideallArm()
-	equipID = 0
 	bMoving = false
 end
 
@@ -170,6 +202,19 @@ end
 
 function script.AimWeapon(num, heading, pitch)
 	if equip ~= nil then
+		if (num == 1) then
+			if not wslot1[equip] then return false end
+			--old method >>  if not (equip == w1a or equip == w1b) then return false end
+		end	
+		if (num == 2) then
+			if not wslot2[equip] then return false end
+		end	
+		if (num == 3) then
+			if not wslot3[equip] then return false end
+		end	
+		if (num == 4) then
+			if not wslot4[equip] then return false end
+		end	
 		Signal(SIG_Aim)
 		SetSignalMask(SIG_Aim)
 		Turn( rarm , y_axis, heading, math.rad(360) ) -- left-right
@@ -177,9 +222,6 @@ function script.AimWeapon(num, heading, pitch)
 		WaitForTurn(rarm, y_axis)
 		WaitForTurn(rarm, x_axis)
 		StartThread(RestoreAfterDelay)
-		local attackid = GetUnitValue(COB.TARGET_ID)
-		Spring.Echo ("Mans attacking ", attackid)
-		Spring.GiveOrderToUnit(equipID,CMD.INSERT,{0,CMD_ATTACK,attackid,{"alt"}})
 		return true
 	else
 	return false 
@@ -188,13 +230,17 @@ end
 
 
 function script.AimFromWeapon(num)
-	return wep		
+	return flare
 end
 
 function script.QueryWeapon(num)
-	return wep
+	return flare
 end
 
+function script.Shot(num)
+	--if useflare == 1 then EmitSfx( flare,  1024+1 )   end
+	--if useshell == 1 then EmitSfx( shell,  1024+2 )   end
+end
 
 -------Transporting-----
 function script.BeginTransport(passengerID)
@@ -209,6 +255,7 @@ function script.TransportDrop (passengerID)
 	--Spring.Echo ("Bye ", passengerID, "but is it ", equipID)	
 	if (passengerID == equipID) then
 		--Spring.Echo ("Bye weapon! Its a ", equip)		
+		HideallWep()
 		equip = nil
 		equipID = nil
 	end	
@@ -236,17 +283,11 @@ function script.TransportPickup (passengerID)
 	if isweapon[pdef.name] then
 		Spring.Echo ("A weapon! Its a ", pdef.name)	
 		Spring.SetUnitNoSelect (passengerID, true)
-		Spring.UnitScript.AttachUnit (wep, passengerID)
-		if (oldID ~= nil) then
-			if oldID ~= passengerID then 
-				Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID, "for this new weapon ", passengerID) 
-				Spring.UnitScript.DropUnit(oldID) 
-			end
-			else
-			equipID = passengerID 
-			equip = pdef.name 
-			Deploy()	
-		end
+		Spring.UnitScript.AttachUnit (-1, passengerID)
+		equipID = passengerID 
+		equip = pdef.name 
+		if (oldID ~= nil) and (oldID ~= passengerID) then Spring.Echo("Too many items. Lets drop this ", oldgun, " ", oldID) Spring.UnitScript.DropUnit(oldID) end
+		Deploy()
 	else
 	Spring.Echo ("not a weapon. Its a ", pdef.name)	
 	end
