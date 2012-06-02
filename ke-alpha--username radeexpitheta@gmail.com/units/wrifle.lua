@@ -14,6 +14,7 @@ local unitDef = {
   --bmcode              = [[1]],
   --brakeRate           = 0,
   buildCostMetal     = 0,
+  canAttack          = true,
   canMove 			 = true,
   canstop            = true,
   category           = [[NOTARGET]],
@@ -39,7 +40,7 @@ local unitDef = {
   objectName         = [[wrifle.s3o]],
   pushResistant      = true,
   radarDistance      = 0,
-  script             = [[weapon.lua]],
+  script             = [[wrifle.lua]],
   selfDestructAs     = [[NullDeath]],
   selfDestructCountdown = 0,
   showNanoFrame      = false,
@@ -49,6 +50,69 @@ local unitDef = {
   TEDClass            = [[TANK]],
   TurnRate 			 = 1,
 
+ weapons = {
+		[1]  = {
+		  def                = "SmallBullet",
+		  badtargetcategory  = "VEHICLE", 
+		  onlyTargetCategory = "MAKEME",
+		  mainDir            = "0 0 1", 
+		  maxAngleDif        = 120,
+				},
+	},
+  
+  -------------------------------
+  
+  
+weaponDefs = {
+  
+SmallBullet = {
+      name                    = [[Small Caliber]],
+      areaOfEffect            = 4,
+	  burst 				  = 2,
+	  burstRate 			  = 0.3,
+	  movingAccuracy    	  = 900,
+	  range                   = 600,
+      reloadtime              = 2,
+	  sprayAngle              = 200,
+	  weaponVelocity          = 900,
+	      damage = 	{
+			default = 12,
+			base = 0,
+			veh = 0;
+					},
+      avoidFeature            = false,
+      canAttackGround		  = false,
+      collideFriendly         = false,
+      craterBoost             = 0,
+      craterMult              = 0,
+	  edgeEffectiveness       = 0.5,
+      endsmoke                = [[0]],
+      explosionGenerator      = [[custom:Bullet]],
+      firestarter             = 70,
+	  impactOnly 			= 1,
+      impulseBoost            = 0,
+      impulseFactor           = 0.2,
+      InterceptedByShieldType = 2,
+	  laserFlareSize     = 0.0001,
+	  leadbonus				  = 5, --works?
+      noSelfDamage            = true,
+      duration                = 0.01,
+      renderType              = 0,
+      rgbColor                = [[1 0.7 0.2]],
+      --soundHit                = [[Rifle]],
+	  coreThickness      = 0.15,
+      soundStart              = [[Rifle]],
+	  soundstartvolume		  = 0.5,
+	  soundTrigger			  = true,
+      startsmoke              = [[0]],
+	  thickness				  = 0.8,
+      tolerance               = 600,
+      turret                  = true,
+      weaponTimer             = 1,
+      weapontype			  = "LaserCannon", 
+			},
+  },
+  
 }
 
 
