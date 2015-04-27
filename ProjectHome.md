@@ -1,0 +1,1 @@
+KE is an open source multiplayer game that runs on the Spring Engine. KE is currently in concept alpha stage and is not considered a stable build until the alpha testing and concept are completed.
